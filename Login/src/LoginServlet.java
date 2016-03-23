@@ -4,14 +4,16 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mysql.jdbc.Connection;
-import java.util.*;;
+import java.util.*;
 
 /**
  * Servlet implementation class LoginServlet
@@ -40,17 +42,24 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		response.setContentType("text/html");
 		UserName=request.getParameter("UserName");
 		Password=request.getParameter("Password");
+		HttpSession session=request.getSession();
+		session.setAttribute("UserName", UserName);
 		pw=response.getWriter();
+		RequestDispatcher rd=null;   ////used to forward data to webpages and servlets.
 		if(validate(UserName,Password))
 		{
-			pw.println("Welcome to website");
+			rd=request.getRequestDispatcher("Welcome.html");
+			rd.forward(request, response);
 			
 		}
 		else
 		{
+			rd=request.getRequestDispatcher("Index.html");
 			pw.println("Invalid UserName/Password");
+			rd.include(request,response);
 		}
 		pw.close();
 	}
@@ -89,7 +98,7 @@ public class LoginServlet extends HttpServlet {
 		}
 		catch(Exception e)
 		{
-			pw.println("Error in validate");
+			pw.println("Validation of UserName and Password could not be done");
 			pw.println(e);
 		}
 		return true;

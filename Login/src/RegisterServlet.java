@@ -91,6 +91,7 @@ public class RegisterServlet extends HttpServlet {
 			pw.println("Passwords do not match");
 			return false;
 		}
+		
 		try
 		{
 			Class.forName(dbClassName);
@@ -98,17 +99,15 @@ public class RegisterServlet extends HttpServlet {
 			p.put("user","root");
 			p.put("password","a");
 			connection=(Connection) DriverManager.getConnection(CONNECTION, p);
-			PreparedStatement ps=connection.prepareStatement("Select * from ? where UserName=?");
-			ps.setString(1,tableName);
-			ps.setString(2, UserName);
+			PreparedStatement ps=connection.prepareStatement("Select * from users where UserName=?");
+			ps.setString(1,UserName);
 			ResultSet rs=ps.executeQuery();
 			if(rs.first())
 			{
 				pw.println("UserName already exist");
 				return false;
 			}
-			ps=connection.prepareStatement("Select * from users "
-					+ "values(?,?,?,?");
+			ps=connection.prepareStatement("insert into users values (?,?,?,?)");
 			ps.setString(1,UserName);
 			ps.setString(2,Password);
 			ps.setString(3, Name);
@@ -116,6 +115,7 @@ public class RegisterServlet extends HttpServlet {
 			int result=ps.executeUpdate();
 			if(result>0)
 			{
+				pw.println(result);
 				return true;
 			}
 			else
@@ -129,7 +129,7 @@ public class RegisterServlet extends HttpServlet {
 			pw.println("Validation of UserName and Password could not be done");
 			pw.println(e);
 		}
-		return true;
+		return false;
 	}
 
 }

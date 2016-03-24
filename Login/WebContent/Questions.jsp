@@ -39,7 +39,7 @@
 					placeholder="Enter fourth Option"></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="option_1"
+				<td><input type="text" name="option_5"
 					placeholder="Enter fifth Option"></td>
 			</tr>
 			

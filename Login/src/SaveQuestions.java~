@@ -80,7 +80,6 @@ public class SaveQuestions extends HttpServlet {
 			File jsonFile=new File(path,JsonFileName);
 			PrintWriter output=new PrintWriter(jsonFile);
 			Scanner inputFile=new Scanner(new File(path,"temp.txt"));
-			///the following loop will be used of converting temp.txt to json file.
 			while(inputFile.hasNextLine())
 			{
 			output.println(inputFile.nextLine());	

@@ -45,12 +45,13 @@ public class LoginServlet extends HttpServlet {
 		response.setContentType("text/html");
 		UserName=request.getParameter("UserName");
 		Password=request.getParameter("Password");
-		HttpSession session=request.getSession();
-		session.setAttribute("UserName", UserName);
 		pw=response.getWriter();
 		RequestDispatcher rd=null;   ////used to forward data to webpages and servlets.
 		if(validate(UserName,Password))
 		{
+			HttpSession session=request.getSession();
+			session.setAttribute("UserName", UserName);
+			session.setAttribute("path", ("/home/manjeet/Desktop/Data/"+UserName));
 			rd=request.getRequestDispatcher("Welcome.html");
 			rd.forward(request, response);
 			

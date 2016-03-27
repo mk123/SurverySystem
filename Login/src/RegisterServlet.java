@@ -55,11 +55,12 @@ public class RegisterServlet extends HttpServlet {
 		UserName=request.getParameter("UserName");
 		Password=request.getParameter("Password");
 		ConfirmPassword=request.getParameter("ConfirmPassword");
-		HttpSession session=request.getSession();
-		session.setAttribute("UserName", UserName);
 		RequestDispatcher rd=null;
 		if(insertInDatabase())
 		{
+			HttpSession session=request.getSession();
+			session.setAttribute("UserName", UserName);
+			session.setAttribute("path", ("/home/manjeet/Desktop/Data/"+UserName));
 			rd=request.getRequestDispatcher("Welcome.html");
 			rd.forward(request, response);
 			
